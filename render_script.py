@@ -203,7 +203,7 @@ def setup_camera(obj, camera_name="Camera"):
     
     # Calculate focal length based on object size
     max_dimension = max(obj.dimensions)
-    camera.data.lens = max_dimension * 30  # Adjusted multiplier for better framing
+    camera.data.lens = max_dimension * 40  # Adjusted multiplier for better framing
     
     # Set camera clipping to handle both large and small objects
     camera.data.clip_start = 0.01
@@ -218,7 +218,7 @@ def set_camera_position(camera, position, target):
     camera.rotation_euler = direction.to_track_quat('-Z', 'Y').to_euler()
 
 
-def render_views(obj, camera, output_path, num_views=8, resolution=(512, 512)):
+def render_views(obj, camera, output_path, num_views=12, resolution=(512, 512)):
     """Render multiple views of the object from different angles"""
     obj_location = obj.location
     radius = calculate_optimal_distance(obj)
@@ -228,9 +228,8 @@ def render_views(obj, camera, output_path, num_views=8, resolution=(512, 512)):
     
     # View angles with better framing
     angles = [
-        ('top', 32),    # 30° elevation
-        ('middle', 5),   # Eye level
-        ('bottomup', -50) # 30° depression
+        ('Ring_5', 60),    # 30° elevation
+        ('Ring_3', 10),   # Eye level
     ]
     
     for view_name, elevation_deg in angles:
@@ -245,25 +244,25 @@ def render_views(obj, camera, output_path, num_views=8, resolution=(512, 512)):
             cam_z = obj_location.z + elevation
             
             set_camera_position(camera, (cam_x, cam_y, cam_z), obj_location)
-            bpy.context.scene.render.filepath = f"{output_path}/goc_{view_name}_{i:02d}.jpg"
+            bpy.context.scene.render.filepath = f"{output_path}/{view_name}_{i:02d}.jpg"
             bpy.ops.render.render(write_still=True)
     
-    # top
-    angle = math.radians(90)
-    cam_y = radius * math.cos(angle)
-    cam_z = obj_location.z + radius * math.sin(angle)
-    cam_x = obj_location.x
-    set_camera_position(camera, (cam_x, cam_y, cam_z), obj_location)
-    bpy.context.scene.render.filepath = f"{output_path}/goc_top.jpg"
-    bpy.ops.render.render(write_still=True)
-    # bottom
-    angle = math.radians(-90)
-    cam_y = radius * math.cos(angle)
-    cam_z = obj_location.z + radius * math.sin(angle)
-    cam_x = obj_location.x
-    set_camera_position(camera, (cam_x, cam_y, cam_z), obj_location)
-    bpy.context.scene.render.filepath = f"{output_path}/goc_bottom.jpg"
-    bpy.ops.render.render(write_still=True)
+    # # top
+    # angle = math.radians(90)
+    # cam_y = radius * math.cos(angle)
+    # cam_z = obj_location.z + radius * math.sin(angle)
+    # cam_x = obj_location.x
+    # set_camera_position(camera, (cam_x, cam_y, cam_z), obj_location)
+    # bpy.context.scene.render.filepath = f"{output_path}/goc_top.jpg"
+    # bpy.ops.render.render(write_still=True)
+    # # bottom
+    # angle = math.radians(-90)
+    # cam_y = radius * math.cos(angle)
+    # cam_z = obj_location.z + radius * math.sin(angle)
+    # cam_x = obj_location.x
+    # set_camera_position(camera, (cam_x, cam_y, cam_z), obj_location)
+    # bpy.context.scene.render.filepath = f"{output_path}/goc_bottom.jpg"
+    # bpy.ops.render.render(write_still=True)
 
 def clean_scene():
     """Remove all objects and lights from the scene"""
