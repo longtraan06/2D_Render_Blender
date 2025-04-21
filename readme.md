@@ -1,5 +1,5 @@
 download blender:
-- windown: wget https://mirror.freedif.org/blender/release/Blender4.4/blender-4.4.0-windows-x64.zip
+- windown: https://mirror.freedif.org/blender/release/Blender4.4/blender-4.4.0-windows-x64.zip
 - linux: wget https://mirror.freedif.org/blender/release/Blender4.4/blender-4.4.0-linux-x64.tar.xz
 
 how to use:
